@@ -1,0 +1,74 @@
+<p-card class="recomended-class">
+  <ng-template pTemplate="header">
+    <img
+      [src]="
+        product?.imagenUrl === 'img.png'
+          ? 'assets/imgNotFoundProducts.jpg'
+          : product.imagenUrl
+      "
+      alt="Clases recomendadas"
+      pTooltip="{{ product?.nombre_Producto }}"
+      tooltipPosition="top"
+    />
+  </ng-template>
+  <div class="flex justify-content-end gap-1 favContainer">
+    @if(idUser !== null){
+    <img
+      src="../../../../assets/fav.svg"
+      class="actionsCards"
+      alt="Añadir a favoritos"
+      (click)="addFavorites(0, product.id_Producto, idUser!)"
+    />}
+    <img
+      src="../../../../assets/share.svg"
+      class="actionsCards"
+      alt="Compartir"
+    />
+  </div>
+  <div class="flex align-items-center justify-content-between">
+    <h2>{{ product?.nombre_Producto }}</h2>
+    <i
+      (click)="goToDescription(product.id_Producto)"
+      class="pi pi-arrow-right"
+      style="color: #18a0b0; cursor: pointer"
+    ></i>
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="flex justify-content-start align-content-center gap-4">
+      <div class="flex flex-column justify-content-start">
+        <label for="intensity">
+          <i class="pi-infor pi pi-angle-double-up" style="color: #18a0b0"></i>
+          Intensidad
+        </label>
+        <p
+          [ngClass]="{
+            'dificultad-alta':
+              product.dificultad === 'Alta' || product.dificultad === 'Alto',
+            'dificultad-baja': product.dificultad === 'Baja',
+            'dificultad-media':
+              product.dificultad === 'Intermedio' ||
+              product.dificultad === 'Media'
+          }"
+          name="intensity"
+        >
+          {{ product?.dificultad }}
+        </p>
+      </div>
+      <div class="flex flex-column justify-content-start">
+        <label for="date">
+          <i class="pi-infor pi pi-calendar" style="color: #18a0b0"></i>
+          Clases
+        </label>
+        <p name="date">{{ product?.cant_Clases }}</p>
+      </div>
+      <div class="flex flex-column justify-content-start">
+        <label for="date">
+          <i class="pi-infor pi pi-dollar" style="color: #18a0b0"></i>
+          Precio
+        </label>
+        <p name="date">{{ product?.precio }}</p>
+      </div>
+    </div>
+  </ng-template>
+</p-card>
+<p-toast></p-toast>

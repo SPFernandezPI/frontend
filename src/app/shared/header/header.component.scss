@@ -1,0 +1,36 @@
+.title {
+  color: #efefef;
+}
+
+.header-container {
+  padding: 16px 120px;
+  background: #18a0b0;
+  @media (max-width: 768px) {
+    padding: 8px 16px;
+  }
+  @media (max-width: 425px) {
+    padding: 8px 16px;
+  }
+}
+
+.logo {
+  width: clamp(12px, 30vw, 26px);
+  height: clamp(14px, 30vh, 32px);
+}
+
+:host ::ng-deep {
+  .btn-login {
+    padding: 11px 24px;
+    border-radius: 16px;
+    border: 1px solid #efefef;
+    background: transparent;
+    color: #efefef;
+  }
+  .btn-create-account {
+    padding: 11.5px 24px;
+    border-radius: 16px;
+    background: #09363b;
+    color: #efefef;
+    border-style: none;
+  }
+}

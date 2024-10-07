@@ -1,1 +1,283 @@
-<p>login-register works!</p>
+@if (isDesktop()) {
+<div class="conteiner-component">
+  <div class="container" #container>
+    <div class="form-container sign-up">
+      <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+        <h1>¡Crea una cuenta!</h1>
+        <h5>Ingresa tus datos</h5>
+        <div
+          class="flex flex-column justify-content-start gap-1 w-full align-items-start"
+        >
+          <label for="name">Nombre y Apellido</label>
+          <input
+            name
+            type="text"
+            formControlName="nombre_Usuario"
+            placeholder="Ingrese su nombre"
+          />
+          @if (registerForm.get('nombre_Usuario')?.invalid &&
+          registerForm.get('nombre_Usuario')?.touched) { @if
+          (registerForm.get('nombre_Usuario')?.errors?.['required']) {
+          <small>El nombre es obligatorio.</small>
+          } @if (registerForm.get('nombre_Usuario')?.errors?.['minlength']) {
+          <small>Debe tener al menos 8 caracteres.</small>
+          } @if (registerForm.get('nombre_Usuario')?.errors?.['pattern']) {
+          <small
+            >Debe incluir nombre y apellido separados por un espacio, y no
+            empezar ni terminar con espacios.</small
+          >
+          } }
+        </div>
+        <div
+          class="flex flex-column justify-content-start gap-1 w-full align-items-start"
+        >
+          <label for="name">Email</label>
+          <input
+            type="email"
+            formControlName="mail_Usuario"
+            placeholder="Ejemplo@gmail.com"
+          />
+          @if (registerForm.get('mail_Usuario')?.invalid &&
+          registerForm.get('mail_Usuario')?.touched) { @if
+          (registerForm.get('mail_Usuario')?.errors?.['required']) {
+          <small>El email es obligatorio.</small>
+          } @if (registerForm.get('mail_Usuario')?.errors?.['email']) {
+          <small>El formato del email no es válido.</small>
+          } }
+        </div>
+        <div
+          class="flex flex-column justify-content-start gap-1 w-full align-items-start"
+        >
+          <label for="name">Contraseña</label>
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Ingrese su contraseña"
+          />
+          @if (registerForm.get('password')?.invalid &&
+          registerForm.get('password')?.touched) { @if
+          (registerForm.get('password')?.errors?.['required']) {
+          <small>La contraseña es obligatoria.</small>
+          } @if (registerForm.get('password')?.errors?.['minlength']) {
+          <small>Debe tener al menos 8 caracteres.</small>
+          } @if (registerForm.get('password')?.errors?.['passwordComplexity']) {
+          <small>Debe incluir letras, números y caracteres especiales.</small>
+          } }
+        </div>
+        <button
+          type="submit"
+          [ngClass]="
+            registerForm.invalid
+              ? 'containerButtonDisabled'
+              : 'containerEneable'
+          "
+          [disabled]="registerForm.invalid"
+        >
+          Registrarse
+        </button>
+      </form>
+    </div>
+    <div class="form-container sign-in">
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <h1 class="text-center">¡Hola de nuevo!</h1>
+        <h5>Bienvenido a FitHouse ¿listo?</h5>
+        <div
+          class="flex flex-column justify-content-start gap-1 w-full align-items-start"
+        >
+          <label for="name">Email</label>
+          <input
+            type="email"
+            formControlName="mail_Usuario"
+            placeholder="Ejemplo@gmail.com"
+          />
+          @if (loginForm.get('mail_Usuario')?.invalid &&
+          loginForm.get('mail_Usuario')?.touched) { @if
+          (loginForm.get('mail_Usuario')?.errors?.['required']) {
+          <small>El email es obligatorio.</small>
+          } @if (loginForm.get('mail_Usuario')?.errors?.['email']) {
+          <small>El formato del email no es válido.</small>
+          } @if (loginForm.get('mail_Usuario')?.errors?.['pattern']) {
+          <small>No debe comenzar con espacios.</small>
+          } }
+        </div>
+        <div
+          class="flex flex-column justify-content-start gap-1 w-full align-items-start"
+        >
+          <label for="name">Contraseña</label>
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Ingrese su contraseña"
+          />
+          @if (loginForm.get('password')?.invalid &&
+          loginForm.get('password')?.touched) { @if
+          (loginForm.get('password')?.errors?.['required'] ||
+          loginForm.get('password')?.touched) {
+          <small>La contraseña es obligatoria.</small>
+          } }
+        </div>
+        <button
+          type="submit"
+          [ngClass]="
+            loginForm.invalid ? 'containerButtonDisabled' : 'containerEneable'
+          "
+          [disabled]="loginForm.invalid"
+        >
+          Iniciar Sesión
+        </button>
+        <span>o</span>
+        <button (click)="onOutDash()">Ingresar como invitado</button>
+      </form>
+    </div>
+    <div class="toggle-container">
+      <div class="toggle">
+        <div class="toggle-panel toggle-left">
+          <div>
+            <h1 class="mb-0">
+              <img src="../../../assets/logo.svg" class="mr-1" alt="Logo" />
+              FitHouse
+            </h1>
+          </div>
+          <h1>¡Bienvenido!</h1>
+          <p>¿Ya tienes una cuenta?</p>
+          <button class="" id="login" (click)="goLoginBtn()">Iniciar</button>
+        </div>
+        <div class="toggle-panel toggle-right">
+          <div>
+            <h1 class="mb-0">
+              <img src="../../../assets/logo.svg" class="mr-1" alt="Logo" />
+              FitHouse
+            </h1>
+          </div>
+          <h1 class="mb-0">¿No tienes una cuenta aún?</h1>
+          <p>
+            Accede a miles de clases en vivo y pregrabadas, entrena a tu ritmo y
+            desde cualquier lugar.
+          </p>
+          <p class="mt-0">¡Crea una cuenta en tan solo unos minutos!</p>
+          <button class="" id="register" (click)="goRegisterBtn()">
+            Registrarse
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+} @else {
+<div>
+  <div class="conteiner-component">
+    <div class="container" id="container">
+      <div class="form-container sign-in">
+        @if (isRegisterMobile) {
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+          <h1>¡Hola de nuevo!</h1>
+          <h5>Bienvenido a FitHouse ¿listo?</h5>
+          <input
+            type="email"
+            formControlName="mail_Usuario"
+            placeholder="Ejemplo@gmail.com"
+          />
+          @if (loginForm.get('mail_Usuario')?.invalid &&
+          loginForm.get('mail_Usuario')?.touched) { @if
+          (loginForm.get('mail_Usuario')?.errors?.['required']) {
+          <small>El email es obligatorio.</small>
+          } @if (loginForm.get('mail_Usuario')?.errors?.['email']) {
+          <small>El formato del email no es válido.</small>
+          } @if (loginForm.get('mail_Usuario')?.errors?.['pattern']) {
+          <small>No debe comenzar con espacios.</small>
+          } }
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Ingrese su contraseña"
+          />
+          @if (loginForm.get('password')?.invalid &&
+          loginForm.get('password')?.touched) { @if
+          (loginForm.get('password')?.errors?.['required'] ||
+          loginForm.get('password')?.touched) {
+          <small>La contraseña es obligatoria.</small>
+          } }
+          <button
+            type="submit"
+            [ngClass]="
+              loginForm.invalid ? 'containerButtonDisabled' : 'containerEneable'
+            "
+            [disabled]="loginForm.invalid"
+          >
+            Iniciar Sesión
+          </button>
+          <span>o</span>
+          <button (click)="goIsRegisterMobile()">Registrate</button>
+        </form>
+        } @else {
+        <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+          <h1>¡Crea una cuenta!</h1>
+          <span>Ingresa tus datos</span>
+          <input
+            type="text"
+            formControlName="nombre_Usuario"
+            placeholder="Ingrese su nombre"
+          />
+          @if (registerForm.get('nombre_Usuario')?.invalid &&
+          registerForm.get('nombre_Usuario')?.touched) { @if
+          (registerForm.get('nombre_Usuario')?.errors?.['required']) {
+          <small>El nombre es obligatorio.</small>
+          } @if (registerForm.get('nombre_Usuario')?.errors?.['minlength']) {
+          <small>Debe tener al menos 8 caracteres.</small>
+          } @if (registerForm.get('nombre_Usuario')?.errors?.['pattern']) {
+          <small
+            >Debe incluir nombre y apellido separados por un espacio, y no
+            empezar ni terminar con espacios.</small
+          >
+          } }
+          <input
+            type="email"
+            formControlName="mail_Usuario"
+            placeholder="Ejemplo@gmail.com"
+          />
+          @if (registerForm.get('mail_Usuario')?.invalid &&
+          registerForm.get('mail_Usuario')?.touched) { @if
+          (registerForm.get('mail_Usuario')?.errors?.['required']) {
+          <small>El email es obligatorio.</small>
+          } @if (registerForm.get('mail_Usuario')?.errors?.['email']) {
+          <small>El formato del email no es válido.</small>
+          } }
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Ingrese su contraseña"
+          />
+          @if (registerForm.get('password')?.invalid &&
+          registerForm.get('password')?.touched) { @if
+          (registerForm.get('password')?.errors?.['required']) {
+          <small>La contraseña es obligatoria.</small>
+          } @if (registerForm.get('password')?.errors?.['minlength']) {
+          <small>Debe tener al menos 8 caracteres.</small>
+          } @if (registerForm.get('password')?.errors?.['passwordComplexity']) {
+          <small>Debe incluir letras, números y caracteres especiales.</small>
+          } }
+          <button
+            type="submit"
+            [ngClass]="
+              registerForm.invalid
+                ? 'containerButtonDisabled'
+                : 'containerEneable'
+            "
+            [disabled]="registerForm.invalid"
+          >
+            Registrarse
+          </button>
+          <span>o</span>
+          <button (click)="goIsRegisterMobile()">Iniciar Sesión</button>
+        </form>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+}
+
+<p-toast></p-toast>
+<div class="spinner">
+  <app-spinner [isVisible]="isLoading" />
+</div>

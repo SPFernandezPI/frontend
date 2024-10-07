@@ -3,5 +3,7 @@ import { LoginRegisterComponent } from './pages/login-register/login-register.co
 
 export const outRoutes: Routes = [
   { path: 'login', component: LoginRegisterComponent },
+  { path: 'login/log', component: LoginRegisterComponent },
+  { path: 'login/register', component: LoginRegisterComponent },
   { path: '**', redirectTo: 'out' },
 ];

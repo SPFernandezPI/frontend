@@ -1,0 +1,20 @@
+.imghero {
+  width: 100%;
+  height: auto;
+  max-height: 600px;
+  object-fit: cover;
+}
+
+.search-container {
+  position: relative;
+  top: -170px;
+}
+
+:host ::ng-deep {
+  .card-search .p-card {
+    width: 100%;
+    height: auto;
+    min-height: 132px;
+    gap: 64px;
+  }
+}
