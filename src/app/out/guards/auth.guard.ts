@@ -7,12 +7,11 @@ import { AuthService } from '../services/auth.service';
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
-  // Método de protección de rutas
   canActivate(): boolean {
     if (this.authService.isAuthenticated()) {
-      return true; // Si está autenticado, permitir acceso
+      return true;
     } else {
-      this.router.navigateByUrl('/login'); // Si no está autenticado, redirigir al login
+      this.router.navigateByUrl('/login'); 
       return false;
     }
   }

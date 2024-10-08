@@ -4,56 +4,57 @@
     alt="Un espacio para tu bienestar y crecimiento"
     class="hero w-full"
   />
-</div>
-<div class="flex justify-content-center search-container">
-  <p-card class="card-search">
-    <div class="flex justify-content-between align-items-center">
-      <div>
-        <label for="name">Clase</label>
-        <div class="flex align-items-center gap-0">
-          <img src="../../../../assets/run.svg" alt="" />
-          <p-autoComplete
-            class="autoC"
-            type="text"
-            field="name"
-            placeholder="Ingrese el nombre de la clase"
-          />
+  <div class="search-container">
+    <p-card class="search-card-container">
+      <form action="">
+        <div class="inputs-container">
+          <div class="input-search input-search-border">
+            <label for="name">Clase</label>
+            <div class="flex align-items-center gap-0">
+              <img src="../../../../assets/run.svg" alt="" />
+              <p-autoComplete
+                class="autoC"
+                type="text"
+                field="name"
+                placeholder="Ingrese el nombre de la clase"
+              />
+            </div>
+          </div>
+          <div class="input-search input-search-border">
+            <label for="price">Precio</label>
+            <div class="flex align-items-center gap-0">
+              <img src="../../../../assets/price.svg" alt="" />
+              <input
+                name="price"
+                type="text"
+                pInputText
+                placeholder="Ingrese el precio de la clase"
+              />
+            </div>
+          </div>
+          <div class="input-search">
+            <label for="intensidadClase">Intensidad</label>
+            <div class="flex align-items-center gap-0">
+              <img src="../../../../assets/flame.svg" alt="" />
+              <p-dropdown
+                [(ngModel)]="selectedIntensity"
+                formControlName="selectedIntensity"
+                placeholder="Seleccione la intensidad de la clase"
+                [options]="optionsIntensity"
+              ></p-dropdown>
+            </div>
+          </div>
+          <div class="flex justify-content-center align-items-center">
+            <button
+              pButton
+              pRipple
+              type="submit"
+              icon="pi pi-search"
+              class="btn-search text-xs md:text-2xl lg:text-2xl font-semibold"
+            ></button>
+          </div>
         </div>
-      </div>
-      <div>
-        <label for="price">Precio</label>
-        <div class="flex align-items-center gap-0">
-          <img src="../../../../assets/price.svg" alt="" />
-          <input
-            name="price"
-            type="text"
-            pInputText
-            placeholder="Ingrese el precio de la clase"
-          />
-        </div>
-      </div>
-      <div>
-        <label for="intensidadClase">Intensidad</label>
-        <div class="flex align-items-center gap-0">
-          <img src="../../../../assets/flame.svg" alt="" />
-          <p-dropdown
-            [(ngModel)]="selectedIntensity"
-            formControlName="selectedIntensity"
-            placeholder="Seleccione la intensidad de la clase"
-            [options]="optionsIntensity"
-          ></p-dropdown>
-        </div>
-      </div>
-      <div>
-        <button
-          pButton
-          pRipple
-          type="submit"
-          class="btn-search text-xs md:text-2xl lg:text-2xl font-semibold"
-        >
-          <i class="pi pi-search"></i>
-        </button>
-      </div>
-    </div>
-  </p-card>
+      </form>
+    </p-card>
+  </div>
 </div>
