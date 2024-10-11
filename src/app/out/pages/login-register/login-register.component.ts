@@ -75,6 +75,7 @@ export class LoginRegisterComponent implements AfterViewInit {
       mail_Usuario: this.loginForm.get('mail_Usuario')!.value,
       password: this.loginForm.get('password')!.value,
     };
+    console.log(crentials);
     this.authService.login(crentials).subscribe(
       (response) => {
         if (response.msg == 'El usuario no existe o la clave es incorrecta ') {
