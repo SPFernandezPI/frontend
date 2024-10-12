@@ -35,7 +35,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.clear();
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('/out/login');
   }
 
   login(credentials: { mail_Usuario: string; password: string }) {

@@ -1,19 +1,12 @@
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { delay, finalize } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { MessageService } from 'primeng/api';
 import {
   FormBuilder,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -75,7 +68,6 @@ export class LoginRegisterComponent implements AfterViewInit {
       mail_Usuario: this.loginForm.get('mail_Usuario')!.value,
       password: this.loginForm.get('password')!.value,
     };
-    console.log(crentials);
     this.authService.login(crentials).subscribe(
       (response) => {
         if (response.msg == 'El usuario no existe o la clave es incorrecta ') {
@@ -84,10 +76,11 @@ export class LoginRegisterComponent implements AfterViewInit {
             summary: 'El usuario no existe o la clave es incorrecta',
           });
         }
-        localStorage.setItem('authToken', response.value.token);
-        localStorage.setItem('token', response.value.token);
-        localStorage.setItem('id', response.value.id_Usuario);
-        localStorage.setItem('userRole', response.value.rolDescripcion);
+        this.authService.setToken(
+          response.value.token,
+          response.value.id_Usuario,
+          response.value.rolDescripcion
+        );
         this.router.navigate(['/main/home']);
       },
       (error) => {

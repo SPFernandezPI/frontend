@@ -1,1 +1,104 @@
-<p>product-by-categories works!</p>
+<!-- INFO CATEGORIES -->
+<section>
+  @if(infoCategories){
+  <div class="flex justify-content-start gap-2 align-items-center mb-2">
+    <img
+      [src]="getImageByCategory(infoCategories.nombre_Categoria)"
+      alt="{{ infoCategories.nombre_Categoria }}"
+    />
+    <div>
+      <h1>{{ infoCategories.nombre_Categoria }}</h1>
+      <p>
+        {{ infoCategories.descripcion }}
+      </p>
+    </div>
+  </div>
+  }
+</section>
+<!-- SEARCH -->
+<section>
+  <div class="flex justify-content-center">
+    <div class="search-container">
+      <p-card class="search-card-container">
+        <form
+          [formGroup]="filterForm"
+          (ngSubmit)="
+            onSearch(idCategorias!, classSearch, selectedIntensity, price)
+          "
+        >
+          <div class="inputs-container">
+            <div class="input-search input-search-border">
+              <label for="name">Clase</label>
+              <div class="flex align-items-center gap-0">
+                <img src="../../../../assets/run.svg" alt="" />
+                <p-autoComplete
+                  class="autoC"
+                  type="text"
+                  field="name"
+                  [(ngModel)]="classSearch"
+                  [suggestions]="filteredClasses"
+                  (completeMethod)="filterClasses($event)"
+                  formControlName="classSearch"
+                  placeholder="Ingrese el nombre de la clase"
+                />
+              </div>
+            </div>
+            <div class="input-search input-search-border">
+              <label for="price">Precio</label>
+              <div class="flex align-items-center gap-0">
+                <img src="../../../../assets/price.svg" alt="" />
+                <input
+                  name="price"
+                  type="text"
+                  pInputText
+                  [(ngModel)]="price"
+                  formControlName="price"
+                  placeholder="Ingrese el precio de la clase"
+                />
+              </div>
+            </div>
+            <div class="input-search">
+              <label for="intensidadClase">Intensidad</label>
+              <div class="flex align-items-center gap-0">
+                <img src="../../../../assets/flame.svg" alt="" />
+                <p-dropdown
+                  [(ngModel)]="selectedIntensity"
+                  formControlName="selectedIntensity"
+                  placeholder="Seleccione la intensidad de la clase"
+                  [options]="optionsIntensity"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div class="flex justify-content-center align-items-center">
+              <button
+                pButton
+                pRipple
+                type="submit"
+                icon="pi pi-search"
+                class="btn-search text-xs md:text-2xl lg:text-2xl font-semibold"
+              ></button>
+            </div>
+          </div>
+        </form>
+      </p-card>
+    </div>
+  </div>
+</section>
+<!-- NOT RESULT -->
+@if(notProducts && !products?.length){
+<section class="mt-8">
+  <div class="flex flex-column justify-content-center align-items-center">
+    <img src="../../../../assets/notResult.png" alt="Sin resultados" />
+    <p>¡No se encontraron resultados!</p>
+    <p-button class="backBtn" (onClick)="back()">Volver atras</p-button>
+  </div>
+</section>
+}
+<!-- PRODUCTS -->
+<section class="mt-8">
+  <div class="flex flex-wrap align-content-center align-items-center gap-3">
+    @for (item of products; track $index) {
+    <app-product-card [product]="item" />
+    }
+  </div>
+</section>

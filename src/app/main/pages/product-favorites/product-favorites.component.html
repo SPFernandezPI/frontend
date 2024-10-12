@@ -1,1 +1,85 @@
-<p>product-favorites works!</p>
+<h3 class="title">Clases Favoritas</h3>
+@if (products?.length) {
+<div class="flex flex-wrap justify-content-between align-items-center gap-6">
+  @for (item of products; track $index) {
+  <p-card>
+    <div class="flex justify-content-between m-0 p-0">
+      <div class="imageContainer">
+        <img
+          src="{{
+            item.producto?.imagenUrl === 'img.png'
+              ? 'assets/imgNotFoundProducts.jpg'
+              : item.producto.imagenUrl
+          }}"
+          alt="Imagen favoritos"
+        />
+      </div>
+      <div class="flex flex-column justify-content-between p-3">
+        <div
+          class="flex flex-column justify-content-start align-content-center gap-0"
+        >
+          <h4 class="m-0">{{ item.producto.nombre_Producto }}</h4>
+          <p>{{ item.producto.descripcion }}</p>
+        </div>
+
+        <div class="flex justify-content-start align-content-center gap-4">
+          <div class="flex flex-column justify-content-start">
+            <label for="intensity"
+              ><i class="pi pi-angle-double-up" style="color: #18a0b0"></i>
+              Intensidad</label
+            >
+            <h4
+              [ngClass]="{
+                'high-difficulty':
+                  item.producto.dificultad === 'Alta' ||
+                  item.producto.dificultad === 'Alto',
+                'low-difficulty': item.producto.dificultad === 'Baja',
+                'medium-difficulty':
+                  item.producto.dificultad === 'Intermedio' ||
+                  item.producto.dificultad === 'Media'
+              }"
+              class="m-0 mt-1"
+            >
+              {{ item.producto.dificultad }}
+            </h4>
+          </div>
+          <div class="flex flex-column justify-content-start">
+            <label for="date"
+              ><i class="pi pi-calendar" style="color: #18a0b0"></i>
+              Clases</label
+            >
+            <h4 class="m-0 mt-1">{{ item.producto.cant_Clases }}</h4>
+          </div>
+          <div class="flex flex-column justify-content-start">
+            <label for="date"
+              ><i class="pi pi-dollar" style="color: #18a0b0"></i> Precio</label
+            >
+            <h4 class="m-0 mt-1">$ {{ item.producto.precio }}</h4>
+          </div>
+        </div>
+
+        <div>
+          <a (click)="deleteFav(item.idFavorito)"
+            >Eliminar <i class="pi pi-trash"></i>
+          </a>
+        </div>
+      </div>
+    </div> </p-card
+  >}
+</div>
+} @if (!products?.length) {
+<p-card class="notFavorites flex justify-content-center mt-5">
+  <div
+    class="flex flex-column justify-content-center align-content-center text-center"
+  >
+    <div>
+      <img src="../../../../assets/notFavorites.svg" alt="No hay favoritos" />
+    </div>
+    <div class="text-center">
+      <h3 class="title">Aún no tenes clases en favoritos</h3>
+      <p>Agrégalos haciendo click en el corazón de la clase</p>
+    </div>
+  </div> </p-card
+>}
+<app-spinner [isVisible]="isLoading"></app-spinner>
+<p-toast></p-toast>

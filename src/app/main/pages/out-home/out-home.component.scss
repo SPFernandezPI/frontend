@@ -1,3 +1,6 @@
+.sub-title {
+  color: #063146;
+}
 .imghero {
   width: 100%;
   height: auto;
@@ -117,7 +120,50 @@
 
 .input-search-border {
   border-right: solid 2px #e0e0e0;
-  @media (max-width: 425px) {
+  @media (max-width: 768px) {
     border: none !important;
+  }
+}
+
+//CATEGORIES
+:host ::ng-deep {
+  .categories {
+    .p-card {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: 2rem;
+      gap: 8px;
+      border-radius: 16px;
+      color: var(--Neutral-Gris-100, #f5f5f5);
+    }
+    .p-card .p-card-content {
+      padding: 0;
+    }
+    .p-card .p-card-body {
+      padding: 0;
+    }
+    &:hover {
+      transform: scale(0.97);
+    }
+  }
+  .pilates-category .p-card {
+    background: #aaa6f5;
+  }
+  .gym-category .p-card {
+    background: #a2b0f5;
+  }
+  .cardio-category .p-card {
+    background: #92c3f5;
+  }
+  .fitness-category .p-card {
+    background: #b8eaf1;
+  }
+  .yoga-category .p-card {
+    background: #db96ec;
+  }
+  .functional-category .p-card {
+    background: #f899bc;
   }
 }

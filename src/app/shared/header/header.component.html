@@ -35,16 +35,17 @@
   <div
     class="flex gap-1 justify-content-center md:justify-content-end lg:justify-content-end align-items-center"
   >
-    <h4 class="title pr-2 m-0">Hola {{ roleUser }} {{ nameUser }}!</h4>
-    <p-avatar
-      label="{{ initialsUser }}"
-      styleClass="mr-2"
-      size="xlarge"
-      shape="circle"
-    />
-    <div #mydiv>
-      <p-splitButton [appendTo]="mydiv" [model]="items" />
-    </div>
+    <h4 class="user pr-2 m-0">Hola {{ roleUser }} {{ nameUser }}!</h4>
+    <p-splitButton class="splitBtn" [model]="items">
+      <ng-template pTemplate="content">
+        <p-avatar
+          label="{{ initialsUser }}"
+          styleClass="mr-2"
+          size="xlarge"
+          shape="circle"
+        />
+      </ng-template>
+    </p-splitButton>
   </div>
   }
 </header>

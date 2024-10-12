@@ -4,9 +4,13 @@
     alt="Un espacio para tu bienestar y crecimiento"
     class="hero w-full"
   />
+  <!-- FILTRO -->
   <div class="search-container">
     <p-card class="search-card-container">
-      <form action="">
+      <form
+        [formGroup]="filterForm"
+        (ngSubmit)="onSearch(classSearch, selectedIntensity, price)"
+      >
         <div class="inputs-container">
           <div class="input-search input-search-border">
             <label for="name">Clase</label>
@@ -16,6 +20,10 @@
                 class="autoC"
                 type="text"
                 field="name"
+                [(ngModel)]="classSearch"
+                [suggestions]="filteredClasses"
+                (completeMethod)="filterClasses($event)"
+                formControlName="classSearch"
                 placeholder="Ingrese el nombre de la clase"
               />
             </div>
@@ -28,6 +36,8 @@
                 name="price"
                 type="text"
                 pInputText
+                [(ngModel)]="price"
+                formControlName="price"
                 placeholder="Ingrese el precio de la clase"
               />
             </div>
@@ -58,3 +68,141 @@
     </p-card>
   </div>
 </div>
+<!-- RESULTADOS DEL FILTRO -->
+@if(notProducts){
+<section class="flex flex-column gap-5 pb-5">
+  <div class="flex justify-content-between align-items-center">
+    <h2 class="sub-title text-base lg:text-4xl font-bold m-0">
+      Resultados de Busqueda
+    </h2>
+    <div class="flex justify-content-end align-self-end">
+      <button
+        pButton
+        pRipple
+        icon="pi pi-times"
+        class="btn-search text-xs md:text-2xl lg:text-2xl font-semibold"
+        pTooltip="Limpiar Filtros"
+        (click)="clearFilters()"
+      ></button>
+    </div>
+  </div>
+  <div class="flex flex-column justify-content-center align-items-center">
+    <img src="../../../../assets/notResult.png" alt="Sin resultados" />
+    <p>¡No se encontraron resultados!</p>
+  </div>
+</section>
+} @if(filterProducts?.length){
+<section class="flex flex-column gap-5 pb-5">
+  <div class="flex justify-content-between align-items-center">
+    <h2 class="sub-title text-base lg:text-4xl font-bold m-0">
+      Resultados de Busqueda
+    </h2>
+    <div class="flex justify-content-end align-self-end">
+      <button
+        pButton
+        pRipple
+        icon="pi pi-times"
+        class="btn-search text-xs md:text-2xl lg:text-2xl font-semibold"
+        pTooltip="Limpiar Filtros"
+        (click)="clearFilters()"
+      ></button>
+    </div>
+  </div>
+  <div class="flex flex-wrap align-content-center align-items-center gap-3">
+    @for (item of filterProducts; track $index) {
+    <app-product-card [product]="item" />
+    }
+  </div>
+</section>
+}
+<!-- CATEGORIES -->
+@if(categories?.length){
+<section class="flex flex-column gap-5">
+  <div class="col-12 flex flex-column gap-3">
+    <h2 class="sub-title text-base lg:text-4xl font-bold m-0">Categorias</h2>
+    <p class="reference-sub-title font-medium text-xs lg:text-xl m-0">
+      Explora una gran selección de clases para todos los gustos y niveles.
+    </p>
+  </div>
+  <div
+    class="flex flex-wrap justify-content-center gap-3 xl:justify-content-between row-gap-3"
+  >
+    <p-card
+      (click)="goToCategorie(categories[0].id_Categoria)"
+      header="{{ categories[0].nombre_Categoria }}"
+      class="categories pilates-category p-0 w-21rem lg:w-15rem"
+    >
+      <ng-template pTemplate="header">
+        <img alt="Pilates" src="../../../../assets/pilates.svg" />
+      </ng-template>
+    </p-card>
+    <p-card
+      (click)="goToCategorie(categories[1].id_Categoria)"
+      header="{{ categories[1].nombre_Categoria }}"
+      class="categories gym-category p-0 w-21rem lg:w-15rem"
+    >
+      <ng-template pTemplate="header">
+        <img alt="Gimnasia" src="../../../../assets/gimnasia.svg" />
+      </ng-template>
+    </p-card>
+    <p-card
+      (click)="goToCategorie(categories[2].id_Categoria)"
+      header="{{ categories[2].nombre_Categoria }}"
+      class="categories cardio-category p-0 w-21rem lg:w-15rem"
+    >
+      <ng-template pTemplate="header">
+        <img alt="Cardio" src="../../../../assets/cardio.svg" />
+      </ng-template>
+    </p-card>
+    <p-card
+      (click)="goToCategorie(categories[3].id_Categoria)"
+      header="{{ categories[3].nombre_Categoria }}"
+      class="categories fitness-category p-0 w-21rem lg:w-15rem"
+    >
+      <ng-template pTemplate="header">
+        <img alt="Musculación" src="../../../../assets/musculacion.svg" />
+      </ng-template>
+    </p-card>
+    <p-card
+      (click)="goToCategorie(categories[4].id_Categoria)"
+      header="{{ categories[4].nombre_Categoria }}"
+      class="categories yoga-category p-0 w-21rem lg:w-15rem"
+    >
+      <ng-template pTemplate="header">
+        <img alt="Yoga" src="../../../../assets/yoga.svg" />
+      </ng-template>
+    </p-card>
+    <p-card
+      (click)="goToCategorie(categories[5].id_Categoria)"
+      header="{{ categories[5].nombre_Categoria }}"
+      class="categories functional-category p-0 w-21rem lg:w-15rem"
+    >
+      <ng-template pTemplate="header">
+        <img alt="Funcional" src="../../../../assets/funcional.svg" />
+      </ng-template>
+    </p-card>
+  </div>
+</section>
+}
+<!-- RECOMENDED CLASS -->
+@if(recomendedProduct?.length){
+<section class="flex flex-column gap-5 pt-5 lg:pt-7 pb-5">
+  <div class="col-12 flex flex-column gap-3">
+    <h2 class="sub-title text-base lg:text-4xl font-bold m-0">
+      Clases Recomendadas
+    </h2>
+    <p class="reference-sub-title font-medium text-xs lg:text-xl m-0">
+      Explora una gran selección de clases para todos los gustos y niveles.
+    </p>
+  </div>
+  <div class="flex flex-wrap align-content-center align-items-center gap-3">
+    @for (item of recomendedProduct; track $index) {
+    <app-product-card [product]="item" />
+    }
+  </div>
+</section>
+}
+<!-- TOAST -->
+<p-toast></p-toast>
+<!-- SPINNER -->
+<app-spinner [isVisible]="isLoading"></app-spinner>

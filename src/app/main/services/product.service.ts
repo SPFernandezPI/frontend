@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { catchError, Observable } from 'rxjs';
-import { environment } from '../../../environments/environment'
+import { environment } from '../../../environments/environment';
 import { HandleErrorService } from '../../shared/services/handle-error.service';
 
 @Injectable({
@@ -57,5 +56,4 @@ export class ProductService {
       params,
     });
   }
-
 }

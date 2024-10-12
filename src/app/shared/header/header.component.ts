@@ -101,7 +101,7 @@ export class HeaderComponent {
   goToInfoProfile() {}
 
   goToFavorites() {
-    this.router.navigate(['/fithouse/in/products/favorites']);
+    this.router.navigate(['/main/product/favorites']);
   }
 
   goToHome() {

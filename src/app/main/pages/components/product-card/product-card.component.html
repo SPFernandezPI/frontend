@@ -26,7 +26,7 @@
     />
   </div>
   <div class="flex align-items-center justify-content-between">
-    <h2>{{ product?.nombre_Producto }}</h2>
+    <h2 class="ellipsis-title">{{ product?.nombre_Producto }}</h2>
     <i
       (click)="goToDescription(product.id_Producto)"
       class="pi pi-arrow-right"
@@ -40,33 +40,34 @@
           <i class="pi-infor pi pi-angle-double-up" style="color: #18a0b0"></i>
           Intensidad
         </label>
-        <p
+        <h4
           [ngClass]="{
-            'dificultad-alta':
+            'high-difficulty':
               product.dificultad === 'Alta' || product.dificultad === 'Alto',
-            'dificultad-baja': product.dificultad === 'Baja',
-            'dificultad-media':
+            'low-difficulty': product.dificultad === 'Baja',
+            'medium-difficulty':
               product.dificultad === 'Intermedio' ||
               product.dificultad === 'Media'
           }"
+          class="m-0 mt-1"
           name="intensity"
         >
           {{ product?.dificultad }}
-        </p>
+        </h4>
       </div>
       <div class="flex flex-column justify-content-start">
         <label for="date">
           <i class="pi-infor pi pi-calendar" style="color: #18a0b0"></i>
           Clases
         </label>
-        <p name="date">{{ product?.cant_Clases }}</p>
+        <h4 class="m-0 mt-1" name="date">{{ product?.cant_Clases }}</h4>
       </div>
       <div class="flex flex-column justify-content-start">
-        <label for="date">
+        <label for="price">
           <i class="pi-infor pi pi-dollar" style="color: #18a0b0"></i>
           Precio
         </label>
-        <p name="date">{{ product?.precio }}</p>
+        <h4 class="m-0 mt-1" name="price">{{ product?.precio }}</h4>
       </div>
     </div>
   </ng-template>
