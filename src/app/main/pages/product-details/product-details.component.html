@@ -1,1 +1,204 @@
-
+<div class="grid align-items-center justify-content-center">
+  <div class="col-12 md:col-12 lg:col-8 xl:col-8">
+    <div class="flex justify-content-center align-items-center">
+      <p-image
+        src="{{
+          product?.imagenUrl
+            ? product.imagenUrl
+            : 'assets/imgNotFoundProducts.jpg'
+        }}"
+        alt="Image"
+        width="70%"
+        class="primary-image"
+      />
+    </div>
+  </div>
+  <div class="col-12 md:col-12 lg:col-4 xl:col-4">
+    <div
+      class="flex flex-wrap justify-content-center justify-items-center align-items-center gap-3"
+    >
+      <p-image src="../../../../assets/p2.png" alt="Image" width="260" />
+      <p-image src="../../../../assets/p3.png" alt="Image" width="260" />
+      <p-image src="../../../../assets/p4.png" alt="Image" width="260" />
+      <p-image src="../../../../assets/p2.png" alt="Image" width="260" />
+    </div>
+  </div>
+</div>
+<div class="card flex justify-content-end">
+  <div class="flex align-items-center gap-4">
+    <button
+      (click)="displayBasicF()"
+      class="p-viewProducts"
+      label="Ver más"
+      icon="pi pi-th-large"
+      pButton
+    ></button>
+    <button
+      (click)="addToFavorites(0, product.id_Producto, idUser)"
+      pButton
+      class="p-favorites"
+      icon="actions pi pi-heart"
+    ></button>
+    <div>
+      <i class="actions pi pi-share-alt"></i>
+    </div>
+  </div>
+  <p-galleria
+    [value]="images"
+    [(visible)]="displayBasic"
+    [responsiveOptions]="responsiveOptions"
+    [containerStyle]="{ 'max-width': '850px' }"
+    [numVisible]="7"
+    [circular]="true"
+    [fullScreen]="true"
+    [showItemNavigators]="true"
+    [showThumbnails]="false"
+  >
+    <ng-template pTemplate="item" let-item>
+      <img [src]="item.src" style="width: 100%; display: block" />
+    </ng-template>
+  </p-galleria>
+</div>
+<h1>{{ product?.nombre_Producto }}</h1>
+<p-rating [(ngModel)]="rating" [readonly]="true" [cancel]="false" id="rating" />
+<label class="rating ml-1 mr-1" for="rating">{{ rating }}</label>
+<span *ngIf="isBuy" [ngClass]="isBuy ? 'opinion' : ''" (click)="valorate()"
+  >¡Danos tu opinión!</span
+>
+<p-dialog
+  header="Valoración"
+  [modal]="true"
+  [(visible)]="visible"
+  [closable]="true"
+  [style]="{ width: '20rem' }"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+  (onHide)="getValorate(); this.isValorated = false; this.ratingPost = 0"
+>
+  <div
+    *ngIf="isValorated == false"
+    class="flex flex-column align-items-center justify-content-center"
+  >
+    <h4 class="mb-3">¿Que puntuación le darías a este curso?</h4>
+    <p-rating
+      [(ngModel)]="ratingPost"
+      [cancel]="false"
+      id="rating"
+      class="mb-3"
+    />
+    <button
+      icon="pi pi-star"
+      label="Valorar"
+      (click)="postValorate(product.id_Producto, ratingPost)"
+      class="p-buy"
+      pButton
+    ></button>
+  </div>
+  <div
+    *ngIf="isValorated == true"
+    class="flex flex-column align-items-center justify-content-center"
+  >
+    <h1>¡Gracias por su opinión!</h1>
+  </div>
+</p-dialog>
+<div class="flex gap-2 align-items-center">
+  <h1>${{ product?.precio }}</h1>
+  <button
+    *ngIf="isStudent"
+    (click)="buy()"
+    [ngClass]="isStudent ? 'p-buy' : ''"
+    pButton
+  >
+    Reservar la clase <i class="ml-2 pi pi-arrow-right"></i>
+  </button>
+</div>
+<h3>Acerca de</h3>
+<p-divider />
+<p>
+  {{ product?.descripcion }}
+</p>
+<h3>Detalles de la clase</h3>
+<p-divider />
+<div class="grid mb-3 align-items-center">
+  <div class="col-6">
+    <div class="flex flex-column justify-content-start gap-5">
+      <div>
+        <i class="pi pi-angle-double-up"></i>{{ product?.dificultad }}
+        <div class="flex flex-row gap-1 mt-2 w-6">
+          <div class="rectangle"></div>
+          <div class="rectangle"></div>
+          <div class="rectangleTransparent"></div>
+        </div>
+      </div>
+      <div>
+        Tiempo
+        <h4 class="m-0">
+          <i class="pi pi-clock mr-2"></i> {{ product?.cant_Clases }} Clases
+        </h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="flex flex-column justify-content-start gap-5">
+      <div>
+        Estimación
+        <h4 class="m-0 flex align-items-center">
+          <img src="../../../../assets/kcal.svg" /> 400 Calorias por sesión
+        </h4>
+        <span class="text-xs"
+          >La cantidad de calorías quemadas puede variar según la intensidad de
+          la práctica y el esfuerzo individual.</span
+        >
+      </div>
+      <div>
+        Beneficios Principales
+        <h4 class="m-0 flex align-items-center">
+          <img src="../../../../assets/heart-rate.svg" />Equilibrio y
+          Coordinación | Fortalecimiento muscular | Flexibilidad
+        </h4>
+      </div>
+    </div>
+  </div>
+</div>
+<p-divider />
+<div class="grid mb-3">
+  <div class="col-4">
+    <p class="font-bold">Requisitos obligatorios</p>
+    <ul>
+      <li>
+        Para participar en nuestros cursos de fitness virtuales, es obligatorio
+        que los alumnos cumplan con todos los requisitos exigidos por el curso.
+      </li>
+      <li>
+        Incluye contar con una cámara funcional y mantener un comportamiento
+        apropiado.
+      </li>
+      <li>
+        En caso de incumplimiento, el alumno podrá ser bloqueado de la
+        plataforma sin derecho a reembolso.
+      </li>
+    </ul>
+  </div>
+  <div class="col-4">
+    <p class="font-bold">Responsabilidad</p>
+    <ul>
+      <li>
+        La empresa no se responsabiliza por posibles lesiones que puedan ocurrir
+        durante las clases.
+      </li>
+      <li>
+        Los participantes deben asegurarse de estar en condiciones físicas
+        adecuadas.
+      </li>
+    </ul>
+  </div>
+  <div class="col-4">
+    <p class="font-bold">Política de cancelación</p>
+    <ul>
+      <li>
+        Si un alumno falta a las clases o decide cancelar su inscripción, no se
+        otorgará ningún reembolso.
+      </li>
+    </ul>
+  </div>
+</div>
+<p-toast></p-toast>

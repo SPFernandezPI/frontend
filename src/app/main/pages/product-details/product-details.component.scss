@@ -1,0 +1,72 @@
+:host ::ng-deep {
+  .p-image {
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 24px;
+  }
+  .p-viewProducts {
+    padding: 3px;
+    background: transparent;
+    color: #18a0b0;
+    border: none;
+    border-style: none;
+    text-decoration: underline;
+    margin: 0;
+  }
+  .p-favorites {
+    padding: 3px;
+    background: transparent;
+    color: #18a0b0;
+    border: none;
+    border-style: none;
+    margin: 0;
+  }
+  .p-buy {
+    padding: 11.5px 24px;
+    border-radius: 16px;
+    background: #18a0b0;
+    color: #efefef;
+    border-style: none;
+  }
+
+  .p-rating .p-rating-item.p-rating-item-active .p-rating-icon {
+    color: rgb(230, 230, 58);
+  }
+
+  .primary-image .p-image img {
+    width: inherit;
+    border-radius: inherit;
+    width: 824px;
+    height: 559px;
+  }
+  .p-dialog {
+    min-width: 500px;
+  }
+}
+.rating {
+  color: gray;
+}
+
+.rectangle {
+  height: 8px;
+  width: 25px;
+  flex: 1 0 0;
+  border-radius: 4px;
+  background: #18a0b0;
+}
+
+.actions {
+  color: #18a0b0;
+}
+
+.rectangleTransparent {
+  height: 8px;
+  width: 25px;
+  flex: 1 0 0;
+  border-radius: 4px;
+  background: #18a1b028;
+}
+
+.opinion {
+  cursor: pointer;
+  color: #18a0b0;
+}

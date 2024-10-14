@@ -9,7 +9,6 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ProductService } from '../../services/product.service';
