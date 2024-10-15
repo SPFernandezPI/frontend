@@ -27,17 +27,19 @@
 <div class="card flex justify-content-end">
   <div class="flex align-items-center gap-4">
     <button
-      (click)="displayBasicF()"
-      class="p-viewProducts"
-      label="Ver más"
-      icon="pi pi-th-large"
       pButton
+      (click)="displayBasicF()"
+      label="Ver más"
+      iconPos="right"
+      class="p-viewProducts"
+      icon="pi pi-th-large"
     ></button>
     <button
       (click)="addToFavorites(0, product.id_Producto, idUser)"
       pButton
+      class="actions"
       class="p-favorites"
-      icon="actions pi pi-heart"
+      icon="pi pi-heart"
     ></button>
     <div>
       <i class="actions pi pi-share-alt"></i>
@@ -62,9 +64,10 @@
 <h1>{{ product?.nombre_Producto }}</h1>
 <p-rating [(ngModel)]="rating" [readonly]="true" [cancel]="false" id="rating" />
 <label class="rating ml-1 mr-1" for="rating">{{ rating }}</label>
-<span *ngIf="isBuy" [ngClass]="isBuy ? 'opinion' : ''" (click)="valorate()"
+@if (isBuy) {
+<span [ngClass]="isBuy ? 'opinion' : ''" (click)="valorate()"
   >¡Danos tu opinión!</span
->
+>}
 <p-dialog
   header="Valoración"
   [modal]="true"
@@ -74,10 +77,8 @@
   [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
   (onHide)="getValorate(); this.isValorated = false; this.ratingPost = 0"
 >
-  <div
-    *ngIf="isValorated == false"
-    class="flex flex-column align-items-center justify-content-center"
-  >
+  @if(isValorated == false){
+  <div class="flex flex-column align-items-center justify-content-center">
     <h4 class="mb-3">¿Que puntuación le darías a este curso?</h4>
     <p-rating
       [(ngModel)]="ratingPost"
@@ -93,23 +94,25 @@
       pButton
     ></button>
   </div>
-  <div
-    *ngIf="isValorated == true"
-    class="flex flex-column align-items-center justify-content-center"
-  >
+  } @if(isValorated == true){
+  <div class="flex flex-column align-items-center justify-content-center">
     <h1>¡Gracias por su opinión!</h1>
   </div>
+  }
 </p-dialog>
 <div class="flex gap-2 align-items-center">
   <h1>${{ product?.precio }}</h1>
+  @if(isStudent){
   <button
-    *ngIf="isStudent"
+    class="ml-2"
+    iconPos="right"
+    label="Reservar la clase"
+    icon="pi pi-arrow-right"
     (click)="buy()"
     [ngClass]="isStudent ? 'p-buy' : ''"
     pButton
-  >
-    Reservar la clase <i class="ml-2 pi pi-arrow-right"></i>
-  </button>
+  ></button>
+  }
 </div>
 <h3>Acerca de</h3>
 <p-divider />

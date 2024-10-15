@@ -8,7 +8,7 @@ import { FavoriteService } from '../../services/favorite.service';
 import Swal from 'sweetalert2';
 import { MessageService } from 'primeng/api';
 import { CardModule } from 'primeng/card';
-import { Button } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { ImageModule } from 'primeng/image';
 import { GalleriaModule } from 'primeng/galleria';
 import { ToastModule } from 'primeng/toast';
@@ -21,7 +21,7 @@ import { DividerModule } from 'primeng/divider';
   imports: [
     CommonModule,
     CardModule,
-    Button,
+    ButtonModule,
     ImageModule,
     GalleriaModule,
     ToastModule,
