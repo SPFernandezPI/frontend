@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment'
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,8 +11,16 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  //buscar interfaz  
+  //buscar interfaz
   getInfoUserById(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/api/Usuario/Usuarioxid/${id}`);
+  }
+
+  getAllTeachers(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/api/Usuario/GetAllProfesores`);
+  }
+
+  getAllStudent(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/api/Usuario/GetAllAlumnos`);
   }
 }

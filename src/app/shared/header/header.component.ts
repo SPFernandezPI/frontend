@@ -75,7 +75,7 @@ export class HeaderComponent {
       .subscribe(
         (resp) => {
           this.nameUser = resp.value.nombre_Usuario;
-          this.roleUser = localStorage.getItem('userRole')!;
+          this.roleUser = localStorage.getItem('user_role')!;
         },
         (err) => {
           console.log(err);

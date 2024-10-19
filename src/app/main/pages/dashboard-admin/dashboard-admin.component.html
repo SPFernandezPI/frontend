@@ -1,4 +1,10 @@
 <div class="flex align-items-center justify-content-between">
-  <h1>Panel administrador</h1>
-  <p-tabMenu [model]="items" />
+  <h1>Panel Administrador</h1>
+  <p-tabMenu [model]="items" [(activeItem)]="activeItem" />
+</div>
+<div [ngSwitch]="activeItem?.label">
+  <app-table-users *ngSwitchCase="'Profesores'"></app-table-users>
+  <app-table-students *ngSwitchCase="'Alumnos'"></app-table-students>
+  <div *ngSwitchCase="'Categorias'"></div>
+  <div *ngSwitchCase="'Clases'"></div>
 </div>
