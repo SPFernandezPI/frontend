@@ -5,6 +5,6 @@
 <div [ngSwitch]="activeItem?.label">
   <app-table-users *ngSwitchCase="'Profesores'"></app-table-users>
   <app-table-students *ngSwitchCase="'Alumnos'"></app-table-students>
-  <div *ngSwitchCase="'Categorias'"></div>
+  <app-table-categories *ngSwitchCase="'Categorias'"></app-table-categories>
   <div *ngSwitchCase="'Clases'"></div>
 </div>

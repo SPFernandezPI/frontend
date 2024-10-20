@@ -22,38 +22,10 @@
     color: red;
     font-weight: bold;
   }
-  .pi-user-edit:before {
+  .pi-pencil:before {
     font-weight: bold;
     color: blue;
   }
-}
-
-.notVerificated {
-  padding: 4px 8px;
-  border-radius: 8px;
-  border: 1px solid #b32b23;
-  background: #ffd0ce;
-  color: #b32b23;
-  font-family: "Plus Jakarta Sans";
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  width: fit-content;
-}
-
-.verificated {
-  padding: 4px 8px;
-  border-radius: 8px;
-  border: 1px solid #188a42;
-  background: #caf1d8;
-  color: #188a42;
-  font-family: "Plus Jakarta Sans";
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  width: fit-content;
 }
 
 .btn-delete {
@@ -66,9 +38,4 @@
   border-radius: 8px;
   border: 1px solid var(--Alertas-Info-Borde, #bfdbfe);
   background: var(--Alertas-Info-Fondo, #eff6ff);
-}
-
-small {
-  color: red;
-  padding: 5px;
 }

@@ -39,21 +39,22 @@
           label="Agregar un usuario"
           icon="pi pi-user-plus"
           pButton
+          (click)="showDialogAdd()"
         ></button>
       </div>
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th style="width: 20%">ID</th>
-        <th style="width: 20%">NOMBRE</th>
-        <th style="width: 20%">EMAIL</th>
-        <th style="width: 20%">VERIFICACIÓN</th>
-        <th style="width: 20%">ACCIONES</th>
+        <th style="width: 10%">ID</th>
+        <th style="width: 35%">NOMBRE</th>
+        <th style="width: 35%">EMAIL</th>
+        <th style="width: 10%">VERIFICACIÓN</th>
+        <th style="width: 10%">ACCIONES</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-teachers let-rowIndex="rowIndex">
       <tr>
-        <td># {{ rowIndex + 1 }}</td>
+        <td># {{ teachers.id_Usuario }}</td>
         <td>{{ teachers.nombre_Usuario }}</td>
         <td>{{ teachers.mail_Usuario }}</td>
         <td>
@@ -74,7 +75,7 @@
               icon="pi pi-trash"
               class="btn-delete"
               pTooltip="Eliminar"
-              (click)="deleteUser()"
+              (click)="deleteUser(teachers.id_Usuario)"
             ></button>
             <button
               pButton
@@ -82,7 +83,7 @@
               icon="pi pi-user-edit"
               class="btn-edit"
               pTooltip="Editar"
-              (click)="showDialogEdit()"
+              (click)="showDialogEdit(teachers.id_Usuario)"
             ></button>
           </div>
         </td>
@@ -101,28 +102,130 @@
   [modal]="true"
   [(visible)]="visibleEdit"
   [style]="{ width: '30rem' }"
->
-  <span class="p-text-secondary block mb-5">Actualizar información</span>
-  <div class="flex align-items-center gap-3 mb-3">
-    <label for="username" class="font-semibold w-6rem">Nombre y Apellido</label>
-    <input pInputText id="username" class="flex-auto" autocomplete="off" />
-  </div>
-  <div class="flex align-items-center gap-3 mb-5">
-    <label for="email" class="font-semibold w-6rem">Email</label>
-    <input pInputText id="email" class="flex-auto" autocomplete="off" />
-  </div>
-  <div class="flex justify-content-center gap-2">
-    <p-button
-      label="Cancelar"
-      styleClass="p-3 border-round-2xl"
-      severity="secondary"
-      (onClick)="visibleEdit = false"
-    />
-    <button
-      class="p-addUser"
-      label="Guardar"
-      pButton
-      (click)="visibleEdit = false"
-    ></button>
-  </div>
+  (onHide)="updateForm.reset()"
+  ><form [formGroup]="updateForm">
+    <span class="p-text-secondary block mb-5">Actualizar información</span>
+    <div class="flex align-items-center gap-3 mb-3">
+      <label for="username" class="font-semibold w-6rem"
+        >Nombre y Apellido</label
+      >
+      <input
+        pInputText
+        id="username"
+        class="flex-auto"
+        formControlName="nombre_Usuario"
+        autocomplete="off"
+      />
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+      <label for="email" class="font-semibold w-6rem">Email</label>
+      <input
+        pInputText
+        id="email"
+        class="flex-auto"
+        formControlName="mail_Usuario"
+        type="email"
+        autocomplete="off"
+      />
+    </div>
+    <div class="flex justify-content-center gap-2">
+      <p-button
+        label="Cancelar"
+        styleClass="p-3 border-round-2xl"
+        severity="secondary"
+        (onClick)="visibleEdit = false; updateForm.reset()"
+      />
+      <button
+        class="p-addUser"
+        [disabled]="updateForm.invalid"
+        label="Guardar"
+        pButton
+        (click)="visibleEdit = false; updateTeacher()"
+      ></button>
+    </div>
+  </form>
 </p-dialog>
+
+<p-dialog
+  header="Agregar"
+  [modal]="true"
+  [(visible)]="visibleAdd"
+  [style]="{ width: '30rem' }"
+  (onHide)="registerForm.reset()"
+>
+  <form [formGroup]="registerForm">
+    <span class="p-text-secondary block mb-1">Complete la información</span>
+    <span class="p-text-secondary block mb-5"
+      >¡El usuario debera validar la cuenta en su email!</span
+    >
+    <div class="flex flex-column align-items-start gap-3 mb-3">
+      <label for="username" class="font-semibold w-6rem"
+        >Nombre y Apellido</label
+      >
+      <input
+        pInputText
+        id="username"
+        class="flex-auto w-full"
+        autocomplete="off"
+        type="text"
+        formControlName="nombre_Usuario"
+      />
+    </div>
+    <div class="flex flex-column align-items-start gap-3 mb-3">
+      <label for="email" class="font-semibold w-6rem">Email</label>
+      <input
+        pInputText
+        id="email"
+        class="flex-auto w-full"
+        autocomplete="off"
+        type="email"
+        formControlName="mail_Usuario"
+      />
+      @if (registerForm.get('mail_Usuario')?.invalid &&
+      registerForm.get('mail_Usuario')?.touched) { @if
+      (registerForm.get('mail_Usuario')?.errors?.['required']) {
+      <small>El email es obligatorio.</small>
+      } @if (registerForm.get('mail_Usuario')?.errors?.['email']) {
+      <small>El formato del email no es válido.</small>
+      } }
+    </div>
+    <div class="flex flex-column align-items-start gap-3 mb-3">
+      <label for="password" class="font-semibold w-6rem">Contraseña</label>
+      <input
+        pInputText
+        id="password"
+        class="flex-auto w-full"
+        autocomplete="off"
+        type="password"
+        formControlName="password"
+      />
+      @if (registerForm.get('password')?.invalid &&
+      registerForm.get('password')?.touched) { @if
+      (registerForm.get('password')?.errors?.['required']) {
+      <small>La contraseña es obligatoria.</small>
+      } @if (registerForm.get('password')?.errors?.['minlength']) {
+      <small>Debe tener al menos 8 caracteres.</small>
+      } @if (registerForm.get('password')?.errors?.['passwordComplexity']) {
+      <small>Debe incluir letras, números y caracteres especiales.</small>
+      } }
+    </div>
+    <div class="flex justify-content-center gap-2">
+      <p-button
+        label="Cancelar"
+        styleClass="p-3 border-round-2xl"
+        severity="secondary"
+        (onClick)="visibleAdd = false; registerForm.reset()"
+      />
+      <button
+        class="p-addUser"
+        label="Añadir"
+        pButton
+        [disabled]="registerForm.invalid"
+        (click)="visibleAdd = false; addTeacher()"
+      ></button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-toast></p-toast>
+<app-spinner [isVisible]="isLoading" />

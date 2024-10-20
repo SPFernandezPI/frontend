@@ -70,7 +70,11 @@ export class LoginRegisterComponent implements AfterViewInit {
     };
     this.authService.login(crentials).subscribe(
       (response) => {
-        if (response.msg == 'El usuario no existe o la clave es incorrecta ') {
+        console.log(response);
+        if (
+          response.msg == 'El usuario no existe o la clave es incorrecta ' ||
+          'Credenciales no válidas.'
+        ) {
           this.messageService.add({
             severity: 'error',
             summary: 'El usuario no existe o la clave es incorrecta',
@@ -88,10 +92,15 @@ export class LoginRegisterComponent implements AfterViewInit {
         }
       },
       (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'El usuario no existe o la clave es incorrecta',
+        });
         console.log(error);
       }
     );
   }
+
   onRegister() {
     this.isLoading = true;
     let credentials = {

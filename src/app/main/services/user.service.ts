@@ -11,7 +11,6 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  //buscar interfaz
   getInfoUserById(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/api/Usuario/Usuarioxid/${id}`);
   }
@@ -22,5 +21,24 @@ export class UserService {
 
   getAllStudent(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/api/Usuario/GetAllAlumnos`);
+  }
+
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete<any>(
+      `${this.apiUrl}/api/Usuario/EliminarUsuario/${id}`
+    );
+  }
+
+  updateUser(
+    id: number,
+    credentials: {
+      nombre_Usuario: string;
+      mail_Usuario: string;
+    }
+  ): Observable<any> {
+    return this.http.put<any>(
+      `${this.apiUrl}/api/Usuario/EditarUsuario/${id}`,
+      credentials
+    );
   }
 }

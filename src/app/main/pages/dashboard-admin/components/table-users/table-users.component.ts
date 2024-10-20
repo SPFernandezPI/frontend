@@ -1,8 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../../../services/user.service';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { IdStorageService } from '../../../../../shared/services/idService.service';
 import { Table, TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
@@ -16,6 +21,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { DialogModule } from 'primeng/dialog';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../../../../out/services/auth.service';
 
 @Component({
   selector: 'app-table-users',
@@ -41,20 +47,50 @@ import Swal from 'sweetalert2';
   providers: [MessageService],
 })
 export class TableUsersComponent implements OnInit {
+  //Spinner
+  public isLoading = false;
   //ARRAYS tablas
   public teachers!: any[];
+  //AddUser
+  public registerForm: FormGroup;
+  public updateForm: FormGroup;
+  //Modales
   public visibleEdit: boolean = false;
-
+  public idUserEdit!: number;
+  public visibleAdd: boolean = false;
   //Search
   @ViewChild('dt2') dt2!: Table;
   public searchValue = '';
 
   constructor(
     private userService: UserService,
+    private authService: AuthService,
     private fb: FormBuilder,
-    private messageService: MessageService,
-    private idService: IdStorageService
-  ) {}
+    private messageService: MessageService
+  ) {
+    this.registerForm = this.fb.group({
+      nombre_Usuario: ['', [Validators.required, Validators.minLength(8)]],
+      mail_Usuario: [
+        '',
+        [Validators.required, Validators.email, Validators.pattern(/^\S.*$/)],
+      ],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          this.authService.passwordValidator,
+        ],
+      ],
+    });
+    this.updateForm = this.fb.group({
+      nombre_Usuario: ['', [Validators.required, Validators.minLength(8)]],
+      mail_Usuario: [
+        '',
+        [Validators.required, Validators.email, Validators.pattern(/^\S.*$/)],
+      ],
+    });
+  }
 
   ngOnInit(): void {
     this.getAllTeachers();
@@ -78,11 +114,71 @@ export class TableUsersComponent implements OnInit {
     this.searchValue = '';
   }
 
-  showDialogEdit() {
+  showDialogEdit(id: number) {
     this.visibleEdit = true;
+    this.idUserEdit = id;
   }
 
-  deleteUser() {
+  showDialogAdd() {
+    this.visibleAdd = true;
+  }
+
+  addTeacher() {
+    this.isLoading = true;
+    let credentials = {
+      id_Usuario: 0,
+      nombre_Usuario: this.registerForm.get('nombre_Usuario')!.value,
+      mail_Usuario: this.registerForm.get('mail_Usuario')!.value,
+      password: this.registerForm.get('password')!.value,
+      id_Rol: 2,
+      rolDescripcion: '',
+    };
+    this.authService.register(credentials).subscribe(
+      (response) => {
+        this.isLoading = false;
+        setTimeout(() => {
+          this.messageService.add({
+            severity: 'success',
+            summary: '¡Usuario registrado con éxito!',
+            detail: 'SE HA ENVIADO EL CORREO ELECTRONICO',
+          });
+        }, 100);
+        this.getAllTeachers();
+      },
+      (error) => {
+        this.isLoading = false;
+        console.error('Error en el registro:', error);
+      }
+    );
+  }
+
+  updateTeacher() {
+    this.isLoading = true;
+    let credentials = {
+      nombre_Usuario: this.updateForm.get('nombre_Usuario')!.value,
+      mail_Usuario: this.updateForm.get('mail_Usuario')!.value,
+    };
+    this.userService.updateUser(this.idUserEdit, credentials).subscribe(
+      (response) => {
+        this.isLoading = false;
+        setTimeout(() => {
+          this.messageService.add({
+            severity: 'success',
+            summary: '¡Usuario editado con éxito!',
+            detail: 'LOS DATOS FUERON ACTUALIZADOS',
+          });
+        }, 100);
+        this.updateForm.reset();
+        this.getAllTeachers();
+      },
+      (error) => {
+        this.isLoading = false;
+        console.error('Error en el registro:', error);
+      }
+    );
+  }
+
+  deleteUser(idUsuario: number) {
     Swal.fire({
       title: '¿Seguro que quiere eliminar a este usuario?',
       text: 'El profesor dejará de administrar la clase asignada',
@@ -93,13 +189,20 @@ export class TableUsersComponent implements OnInit {
       confirmButtonText: 'Eliminar',
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: 'Eliminado',
-          text: 'El usuario fue eliminado con exito',
-          icon: 'success',
-          confirmButtonColor: '#09363b',
-        });
-        this.getAllTeachers();
+        this.userService.deleteUser(idUsuario).subscribe(
+          (resp) => {
+            Swal.fire({
+              title: 'Eliminado',
+              text: 'El usuario fue eliminado con exito',
+              icon: 'success',
+              confirmButtonColor: '#09363b',
+            });
+            this.getAllTeachers();
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
       }
     });
   }
