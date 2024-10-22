@@ -8,13 +8,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./out/out.component').then((m) => m.OutComponent),
     children: [
-      {
-        path: 'login',
-        loadComponent: () =>
-          import(
-            '../app/out/pages/login-register/login-register.component'
-          ).then((m) => m.LoginRegisterComponent),
-      },
+      ...outRoutes,
       {
         path: '**',
         redirectTo: 'login',

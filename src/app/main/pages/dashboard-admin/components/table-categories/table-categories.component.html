@@ -39,6 +39,7 @@
           label="Agregar categoria"
           icon="pi pi-plus"
           pButton
+          (click)="showDialogAdd()"
         ></button>
       </div>
     </ng-template>
@@ -63,13 +64,7 @@
               icon="pi pi-trash"
               class="btn-delete"
               pTooltip="Eliminar"
-            ></button>
-            <button
-              pButton
-              pRipple
-              icon="pi pi-pencil"
-              class="btn-edit"
-              pTooltip="Editar"
+              (click)="deleteCategory(categories.id_Categoria)"
             ></button>
           </div>
         </td>
@@ -82,3 +77,57 @@
     </ng-template>
   </p-table>
 </p-card>
+
+<p-dialog
+  header="Agregar"
+  [modal]="true"
+  [(visible)]="visibleAdd"
+  [style]="{ width: '30rem' }"
+  (onHide)="newCategory.reset()"
+>
+  <form [formGroup]="newCategory">
+    <span class="p-text-secondary block mb-1">Complete la información</span>
+    <div class="flex flex-column align-items-start gap-3 mb-3">
+      <label for="categoria" class="font-semibold w-6rem"
+        >Nombre de la categoria</label
+      >
+      <input
+        pInputText
+        id="categoria"
+        class="flex-auto w-full"
+        autocomplete="off"
+        type="text"
+        formControlName="nombre_Categoria"
+      />
+    </div>
+    <div class="flex flex-column align-items-start gap-3 mb-3">
+      <label for="text" class="font-semibold w-6rem">Descripción</label>
+      <input
+        pInputText
+        id="text"
+        class="flex-auto w-full"
+        autocomplete="off"
+        type="text"
+        formControlName="descripcion"
+      />
+    </div>
+    <div class="flex justify-content-center gap-2">
+      <p-button
+        label="Cancelar"
+        styleClass="p-3 border-round-2xl"
+        severity="secondary"
+        (onClick)="visibleAdd = false; newCategory.reset()"
+      />
+      <button
+        class="p-addUser"
+        label="Añadir"
+        pButton
+        [disabled]="newCategory.invalid"
+        (click)="visibleAdd = false; newCategoria()"
+      ></button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-toast></p-toast>
+<app-spinner [isVisible]="isLoading" />

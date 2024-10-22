@@ -44,6 +44,7 @@ import { AuthService } from '../../../../../out/services/auth.service';
   ],
   templateUrl: './table-students.component.html',
   styleUrl: './table-students.component.scss',
+  providers: [MessageService],
 })
 export class TableStudentsComponent implements OnInit {
   //Spinner

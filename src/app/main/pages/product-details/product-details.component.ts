@@ -176,7 +176,6 @@ export class ProductDetailsComponent {
     this.addToFav.id_favorito = id_favorito;
     this.addToFav.id_Producto = id_Producto;
     this.addToFav.id_Usuario = id_Usuario;
-    console.log(this.addToFav);
     this.favoriteService.favoriteProduct(this.addToFav).subscribe({
       next: (resp) => {
         this.messageService.add({

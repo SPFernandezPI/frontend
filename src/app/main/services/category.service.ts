@@ -55,4 +55,21 @@ export class CategoryService {
       }
     );
   }
+
+  deleteCategory(id: number): Observable<any> {
+    return this.http.delete<any>(
+      `${this.apiUrl}/api/Categoria/EliminarCategoria/${id}`
+    );
+  }
+
+  newCateogy(information: {
+    id_Categoria: number;
+    nombre_Categoria: string;
+    descripcion: string;
+  }): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/api/Categoria/CrearCategoria`,
+      information
+    );
+  }
 }

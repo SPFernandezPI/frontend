@@ -58,7 +58,7 @@ export class LoginRegisterComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.router.url.includes('login/register') && this.container) {
+    if (this.router.url.includes('login/register')) {
       this.container.nativeElement.classList.add('active');
     }
   }
@@ -70,7 +70,6 @@ export class LoginRegisterComponent implements AfterViewInit {
     };
     this.authService.login(crentials).subscribe(
       (response) => {
-        console.log(response);
         if (
           response.msg == 'El usuario no existe o la clave es incorrecta ' ||
           'Credenciales no válidas.'
