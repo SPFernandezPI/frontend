@@ -18,6 +18,12 @@ export class ProductService {
       .pipe(catchError(this.error.handleError));
   }
 
+  getAllProducts(): Observable<any> {
+    return this.http
+      .get<any>(`${this.apiUrl}/api/Producto/Listarproducto`)
+      .pipe(catchError(this.error.handleError));
+  }
+
   getInfoProductById(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/api/Producto/ProductosxId/${id}`);
   }
@@ -25,6 +31,12 @@ export class ProductService {
   getValorateById(id: number): Observable<any> {
     return this.http.get<any>(
       `${this.apiUrl}/api/Producto/ObtenerPromedio/${id}`
+    );
+  }
+
+  getTeachersAndStudents(id: number): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/api/Producto/AlumnosyProfesoresClase?IdProducto=${id}`
     );
   }
 

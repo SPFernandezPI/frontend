@@ -1,0 +1,108 @@
+<p-card class="table">
+  <h1 class="pl-3">Clases</h1>
+  <p-table
+    #dt2
+    dataKey="id"
+    [rows]="10"
+    [value]="products"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [paginator]="true"
+    [globalFilterFields]="['nombre_Producto', 'dificultad', 'descripcion']"
+    [tableStyle]="{ 'min-width': '75rem' }"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-start">
+        <div>
+          <p-iconField iconPosition="right">
+            <p-inputIcon>
+              <i class="pi pi-search"></i>
+            </p-inputIcon>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="searchValue"
+              placeholder="Buscar clase"
+              (input)="applyGlobalFilter($event)"
+            />
+          </p-iconField>
+          <button
+            pButton
+            icon="pi pi-filter-slash"
+            class="p-addUser ml-2"
+            label="Limpiar"
+            (click)="clear(dt2)"
+          ></button>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 10%">ID</th>
+        <th style="width: 25%">NOMBRE</th>
+        <th style="width: 35%">DESCRIPCIÓN</th>
+        <th style="width: 10%">DIFICULTAD</th>
+        <th style="width: 10%">CANTIDAD DE CLASES</th>
+        <th style="width: 10%">ACCIONES</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr>
+        <td># {{ product.id_Producto }}</td>
+        <td>{{ product.nombre_Producto }}</td>
+        <td class="text-truncate">
+          {{ product.descripcion }}
+        </td>
+        <td>{{ product.dificultad }}</td>
+        <td>{{ product.cant_Clases }}</td>
+        <td>
+          <div class="flex align-items-center gap-3">
+            <button
+              pButton
+              pRipple
+              icon="pi pi-eye"
+              class="btn-view"
+              pTooltip="Visualizar"
+              (click)="showDialogParticipants(product.id_Producto)"
+            ></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No se encuentran clases.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+<!-- //MODALES -->
+<p-dialog
+  header="Profesor y alumnos"
+  [modal]="true"
+  [(visible)]="visibleParticipants"
+  [style]="{ width: '30rem' }"
+>
+  @if(claseData){
+  <div class="container">
+    <div class="profesor-info">
+      <h3>Profesor:</h3>
+      <h4 class="m-0">{{ claseData.profesor.nombre_Usuario }}</h4>
+      <p>Información de contacto: {{ claseData.profesor.mail_Usuario }}</p>
+    </div>
+    <div class="alumnos-lista">
+      <h4>Alumnos:</h4>
+      @if(claseData.alumnos.length){
+      <ul>
+        @for (item of claseData.alumnos; track $index) {
+        <li>
+          {{ item.nombre_Usuario }}
+        </li>
+        }
+      </ul>
+      } @else {
+      <h4>¡La clase aun no tiene alumnos!</h4>
+      }
+    </div>
+  </div>
+  }
+</p-dialog>

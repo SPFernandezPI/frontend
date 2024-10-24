@@ -14,6 +14,14 @@ export class AppComponent {
 
   @HostListener('window:beforeunload', ['$event'])
   clearLocalStorage(event: Event) {
-    this.authService.logout();
+    const isReload = sessionStorage.getItem('isReload');
+    if (!isReload) {
+      this.authService.logout();
+    }
+    sessionStorage.removeItem('isReload');
+  }
+  @HostListener('window:load', ['$event'])
+  onReload(event: Event) {
+    sessionStorage.setItem('isReload', 'true');
   }
 }

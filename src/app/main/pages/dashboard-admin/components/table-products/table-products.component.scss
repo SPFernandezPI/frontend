@@ -15,19 +15,16 @@
   .table .p-card .p-card-content {
     padding: 10px;
   }
-  .pi-trash:before {
-    color: red;
-  }
-  .pi-trash:before {
-    color: red;
+  .pi-eye:before {
     font-weight: bold;
+    color: blue;
   }
 }
 
-.btn-delete {
+.btn-view {
   border-radius: 8px;
-  border: 1px solid var(--Alertas-Error-Borde, #fecaca);
-  background: var(--Alertas-Error-Fondo, #fef2f2);
+  border: 1px solid var(--Alertas-Info-Borde, #bfdbfe);
+  background: var(--Alertas-Info-Fondo, #eff6ff);
 }
 
 .text-truncate {

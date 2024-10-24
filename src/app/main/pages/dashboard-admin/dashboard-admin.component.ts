@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { TableUsersComponent } from './components/table-users/table-users.component';
 import { TableStudentsComponent } from './components/table-students/table-students.component';
 import { TableCategoriesComponent } from './components/table-categories/table-categories.component';
+import { TableProductsComponent } from './components/table-products/table-products.component';
 
 @Component({
   selector: 'app-dashboard-admin',
@@ -16,6 +17,7 @@ import { TableCategoriesComponent } from './components/table-categories/table-ca
     TableUsersComponent,
     TableStudentsComponent,
     TableCategoriesComponent,
+    TableProductsComponent,
   ],
   templateUrl: './dashboard-admin.component.html',
   styleUrl: './dashboard-admin.component.scss',
