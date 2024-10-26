@@ -40,6 +40,18 @@ export class ProductService {
     );
   }
 
+  getAllProductsForTeacher(id: number): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/api/Producto/ClasesPorUsuarioProfesor/${id}`
+    );
+  }
+
+  getStudentsForClass(id: number): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/api/Producto/AlumnosClase?IdProducto=${id}`
+    );
+  }
+
   postValorate(idProduct: number, rating: number) {
     return this.http.post<any>(
       `${this.apiUrl}/api/Producto/valoracionProducto/${idProduct}`,

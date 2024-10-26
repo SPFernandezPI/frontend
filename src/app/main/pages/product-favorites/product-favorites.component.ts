@@ -47,6 +47,7 @@ export class ProductFavoritesComponent implements OnInit {
         this.isLoading = false;
       },
       (err) => {
+        this.isLoading = false;
         console.log(err);
       }
     );

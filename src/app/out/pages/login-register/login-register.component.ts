@@ -86,6 +86,8 @@ export class LoginRegisterComponent implements AfterViewInit {
         );
         if (response.value.rolDescripcion == 'Administrador') {
           this.router.navigate(['/main/admin']);
+        } else if (response.value.rolDescripcion == 'Profesor') {
+          this.router.navigate(['/main/teacher']);
         } else {
           this.router.navigate(['/main/home']);
         }

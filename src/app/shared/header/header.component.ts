@@ -24,7 +24,7 @@ import { finalize } from 'rxjs';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  public items: MenuItem[];
+  public items: MenuItem[] = [];
 
   public nameUser?: string;
   public roleUser?: string;
@@ -32,11 +32,15 @@ export class HeaderComponent {
 
   public isUserLogued: boolean = false;
 
+  public isClient: boolean = false;
+
   constructor(
     private router: Router,
     private authService: AuthService,
     private userService: UserService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.items = [
       {
         label: 'Cerrar sesión',
@@ -50,16 +54,7 @@ export class HeaderComponent {
           this.goToInfoProfile();
         },
       },
-      {
-        label: 'Mis favoritos',
-        command: () => {
-          this.goToFavorites();
-        },
-      },
     ];
-  }
-
-  ngOnInit(): void {
     if (localStorage.getItem('user_id')!) {
       this.getInfoUser();
     }
@@ -70,7 +65,24 @@ export class HeaderComponent {
     this.userService
       .getInfoUserById(Number(localStorage.getItem('user_id')!))
       .pipe(
-        finalize(() => (this.initialsUser = this.getInitials(this.nameUser!)))
+        finalize(() => {
+          this.initialsUser = this.getInitials(this.nameUser!);
+          if (
+            this.roleUser !== 'Administrador' &&
+            this.roleUser !== 'Profesor'
+          ) {
+            this.isClient = true;
+            this.items = [
+              ...this.items,
+              {
+                label: 'Mis favoritos',
+                command: () => {
+                  this.goToFavorites();
+                },
+              },
+            ];
+          }
+        })
       )
       .subscribe(
         (resp) => {

@@ -1,0 +1,39 @@
+:host ::ng-deep {
+  .p-tabmenu .p-tabmenu-nav {
+    background-color: transparent;
+  }
+  .p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link {
+    background: transparent;
+    border-color: #18a0b0;
+    color: #18a0b0;
+  }
+  .p-addUser {
+    padding: 15px;
+    border-radius: 16px;
+    background: #18a0b0;
+    color: #efefef;
+    border-style: none;
+  }
+  .p-datatable .p-datatable-header {
+    background: transparent;
+  }
+  .p-accordion .p-accordion-header .p-accordion-header-link {
+    padding: 1.25rem;
+    border: 1px solid #e5e7eb;
+    color: #18a0b0;
+    background: #f9fafb;
+    font-weight: 700;
+    border-radius: 6px;
+    transition: box-shadow 0.2s;
+  }
+  .pi-trash:before {
+    color: red;
+    font-weight: bold;
+  }
+}
+
+.btn-delete {
+  border-radius: 8px;
+  border: 1px solid var(--Alertas-Error-Borde, #fecaca);
+  background: var(--Alertas-Error-Fondo, #fef2f2);
+}

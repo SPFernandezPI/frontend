@@ -4,10 +4,12 @@ import { ProductByCategoriesComponent } from './pages/product-by-categories/prod
 import { ProductDetailsComponent } from './pages/product-details/product-details.component';
 import { ProductFavoritesComponent } from './pages/product-favorites/product-favorites.component';
 import { DashboardAdminComponent } from './pages/dashboard-admin/dashboard-admin.component';
+import { DashboardTeacherComponent } from './pages/dashboard-teacher/dashboard-teacher.component';
 
 export const mainRoutes: Routes = [
   { path: 'home', component: OutHomeComponent },
   { path: 'admin', component: DashboardAdminComponent },
+  { path: 'teacher', component: DashboardTeacherComponent },
   { path: 'product/details', component: ProductDetailsComponent },
   { path: 'product/byCategories', component: ProductByCategoriesComponent },
   { path: 'product/favorites', component: ProductFavoritesComponent },
