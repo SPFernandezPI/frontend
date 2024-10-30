@@ -125,11 +125,15 @@
               <span
                 class="flex flex-column justify-content-center align-content-center align-items-center gap-3"
               >
-                <label>Añade una imagen</label>
+                <label>{{
+                  productForm.get("imagenUrl")?.value
+                    ? "Imagen seleccionada"
+                    : "Añade una imagen"
+                }}</label>
                 <img
                   name="img"
                   [src]="
-                    productForm.get('imagenBase64')?.value ||
+                    productForm.get('imagenUrl')?.value ||
                     '../../../../assets/add_img.svg'
                   "
                   alt="Imagen del Producto"
@@ -146,7 +150,6 @@
                 />
               </span>
             </div>
-
             <div class="col-12 md:col-6">
               <div class="pt-2">
                 <span class="p-float-label">
@@ -205,4 +208,5 @@
     </div>
   </div>
 </div>
+<p-toast></p-toast>
 <app-spinner [isVisible]="isLoading"></app-spinner>

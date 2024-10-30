@@ -82,7 +82,7 @@ export class ProductService {
     });
   }
 
-  postNewProduct(form: FormGroup): Observable<any> {
+  postNewProduct(form: FormGroup<any>): Observable<any> {
     return this.http.post<any>(
       `${this.apiUrl}/api/Producto/CrearProducto`,
       form

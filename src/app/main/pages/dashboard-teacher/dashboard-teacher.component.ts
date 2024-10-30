@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { AccordionModule } from 'primeng/accordion';
 import { ProductService } from '../../services/product.service';
 import { TableModule } from 'primeng/table';
@@ -22,17 +22,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CardModule } from 'primeng/card';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CategoryService } from '../../services/category.service';
-
-interface ProductDTO {
-  nombre_Producto: string;
-  dificultad: string;
-  cant_Clases: number;
-  precio: number;
-  descripcion: string;
-  imagenUrl: string;
-  id_Categoria: number;
-  enlaceMeet: string;
-}
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-dashboard-teacher',
@@ -50,9 +40,11 @@ interface ProductDTO {
     DropdownModule,
     InputTextareaModule,
     CardModule,
+    ToastModule,
   ],
   templateUrl: './dashboard-teacher.component.html',
   styleUrl: './dashboard-teacher.component.scss',
+  providers: [MessageService],
 })
 export class DashboardTeacherComponent implements OnInit {
   // TABMENU
@@ -66,8 +58,9 @@ export class DashboardTeacherComponent implements OnInit {
   public isLoading: boolean = false;
 
   //NewClass
+  idUser!: number;
   productForm!: FormGroup;
-  @ViewChild('imagenInput', { static: false }) imagenInput!: ElementRef;
+  @ViewChild('imagenInput') imagenInput!: ElementRef;
 
   dificult = [
     { label: 'Baja', value: 'baja' },
@@ -82,7 +75,8 @@ export class DashboardTeacherComponent implements OnInit {
     private productService: ProductService,
     private categoryService: CategoryService,
     private userService: UserService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private messageService: MessageService
   ) {
     this.items = [
       { label: 'Clases', icon: 'pi pi-book', command: () => {} },
@@ -93,8 +87,8 @@ export class DashboardTeacherComponent implements OnInit {
 
   ngOnInit(): void {
     if (localStorage.getItem('user_id')!) {
-      let id = Number(localStorage.getItem('user_id'));
-      this.getAllProductsForTeacher(id);
+      this.idUser = Number(localStorage.getItem('user_id'));
+      this.getAllProductsForTeacher(this.idUser);
     }
     this.initForm();
     this.getCategory();
@@ -156,13 +150,15 @@ export class DashboardTeacherComponent implements OnInit {
 
   private initForm() {
     this.productForm = this.fb.group({
+      id_Producto: [0],
       nombre_Producto: ['', [Validators.required, Validators.minLength(3)]],
+      id_Usuario: [this.idUser],
       dificultad: ['', Validators.required],
       cant_Clases: ['', [Validators.required, Validators.min(1)]],
-      precio: ['', [Validators.required, Validators.min(0)]],
+      precio: [0, [Validators.required, Validators.min(0)]],
       descripcion: ['', [Validators.required, Validators.minLength(10)]],
       imagenUrl: ['', Validators.required],
-      id_Categoria: ['', Validators.required],
+      id_Categoria: [0, Validators.required],
       enlaceMeet: [
         '',
         [Validators.required, Validators.pattern('https://meet.google.com/.*')],
@@ -172,7 +168,15 @@ export class DashboardTeacherComponent implements OnInit {
 
   onSubmit() {
     if (this.productForm.valid) {
-      const productDTO: ProductDTO = this.productForm.value;
+      const productDTO = this.productForm.value;
+      this.productService.postNewProduct(productDTO).subscribe((resp) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: '¡El producto se creo exitosamente!',
+          detail: 'SE HA AGREGADO UN NUEVO PRODUCTO',
+        });
+        this.productForm.reset();
+      });
     } else {
       Object.keys(this.productForm.controls).forEach((key) => {
         const control = this.productForm.get(key);
@@ -192,12 +196,13 @@ export class DashboardTeacherComponent implements OnInit {
   }
 
   cargarImagen(event: Event) {
-    const archivo = (event.target as HTMLInputElement).files?.[0];
+    const input = event.target as HTMLInputElement;
+    const archivo = input.files?.[0];
     if (archivo) {
       const lector = new FileReader();
       lector.onload = () => {
         const imagenBase64 = lector.result as string;
-        this.productForm.patchValue({ imagenBase64 });
+        this.productForm.patchValue({ imagenUrl: imagenBase64 });
       };
       lector.readAsDataURL(archivo);
     }
