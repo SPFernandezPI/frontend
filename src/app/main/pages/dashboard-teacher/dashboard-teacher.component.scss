@@ -37,3 +37,34 @@
   border: 1px solid var(--Alertas-Error-Borde, #fecaca);
   background: var(--Alertas-Error-Fondo, #fef2f2);
 }
+
+:host ::ng-deep {
+  .p-float-label {
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .p-inputtext,
+  .p-dropdown,
+  .p-inputnumber {
+    width: 100%;
+  }
+
+  .p-card {
+    margin-bottom: 2rem;
+  }
+
+  .error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    .grid {
+      .col-12 {
+        padding: 0.5rem;
+      }
+    }
+  }
+}

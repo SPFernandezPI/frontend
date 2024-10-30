@@ -82,7 +82,8 @@ export class ProductDetailsComponent {
   ) {}
 
   ngOnInit() {
-    this.isStudent = localStorage.getItem('userRole') === 'Alumno';
+    this.isStudent = localStorage.getItem('userRole') == 'Alumno';
+    console.log(this.isStudent);
     this.idUser = localStorage.getItem('id')!;
     this.getInfoProduct();
     setTimeout(() => {

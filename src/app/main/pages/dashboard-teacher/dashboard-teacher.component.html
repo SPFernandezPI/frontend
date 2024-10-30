@@ -2,54 +2,207 @@
   <h1>Panel Profesor</h1>
   <p-tabMenu [model]="items" [(activeItem)]="activeItem" />
 </div>
-<p-accordion>
-  @for (item of clasesForTeacher; track $index) {
-  <p-accordionTab
-    header="{{ item.nombre_Producto }}"
-    (click)="getStudents(item.id_Producto)"
-  >
-    <h4>Alumnos:</h4>
-    <p-table
-      #dt2
-      dataKey="id"
-      [rows]="10"
-      [value]="studentsForClass"
-      [tableStyle]="{ 'min-width': '75rem' }"
-    >
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 10%">ID</th>
-          <th style="width: 40%">NOMBRE</th>
-          <th style="width: 40%">EMAIL</th>
-          <th style="width: 10%">ACCIONES</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-student>
-        <tr>
-          <td># {{ student.id_Usuario }}</td>
-          <td>{{ student.nombre_Usuario }}</td>
-          <td>{{ student.mail_Usuario }}</td>
+<div [ngSwitch]="activeItem?.label">
+  <div *ngSwitchCase="'Clases'">
+    <p-accordion>
+      @for (item of clasesForTeacher; track $index) {
+      <p-accordionTab
+        header="{{ item.nombre_Producto }}"
+        (click)="getStudents(item.id_Producto)"
+      >
+        <h4>Alumnos:</h4>
+        <p-table
+          #dt2
+          dataKey="id"
+          [rows]="10"
+          [value]="studentsForClass"
+          [tableStyle]="{ 'min-width': '75rem' }"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 10%">ID</th>
+              <th style="width: 40%">NOMBRE</th>
+              <th style="width: 40%">EMAIL</th>
+              <th style="width: 10%">ACCIONES</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-student>
+            <tr>
+              <td># {{ student.id_Usuario }}</td>
+              <td>{{ student.nombre_Usuario }}</td>
+              <td>{{ student.mail_Usuario }}</td>
 
-          <td>
-            <div class="flex align-items-center gap-3">
-              <button
-                pButton
-                pRipple
-                icon="pi pi-trash"
-                class="btn-delete"
-                pTooltip="Eliminar"
-                (click)="deleteUser(student.id_Usuario, item.id_Producto)"
-              ></button>
+              <td>
+                <div class="flex align-items-center gap-3">
+                  <button
+                    pButton
+                    pRipple
+                    icon="pi pi-trash"
+                    class="btn-delete"
+                    pTooltip="Eliminar"
+                    (click)="deleteUser(student.id_Usuario, item.id_Producto)"
+                  ></button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="5">Aún no se han suscripto alumnos a la clase.</td>
+            </tr>
+          </ng-template>
+        </p-table> </p-accordionTab
+      >}
+    </p-accordion>
+  </div>
+  <div *ngSwitchCase="'Nueva Clase'">
+    <div class="container mx-auto gap-4">
+      <p-card header="Crear Nuevo Producto">
+        <form
+          [formGroup]="productForm"
+          (ngSubmit)="onSubmit()"
+          class="flex flex-column"
+        >
+          <!-- Detalles del Producto -->
+          <div class="grid">
+            <div class="col-12 md:col-6">
+              <span class="p-float-label">
+                <input
+                  id="nombre_Producto"
+                  type="text"
+                  pInputText
+                  formControlName="nombre_Producto"
+                  class="w-full"
+                />
+                <label for="nombre_Producto">Nombre del Producto</label>
+              </span>
             </div>
-          </td>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td colspan="5">Aún no se han suscripto alumnos a la clase.</td>
-        </tr>
-      </ng-template>
-    </p-table> </p-accordionTab
-  >}
-</p-accordion>
+
+            <div class="col-12 md:col-6">
+              <span class="p-float-label">
+                <p-dropdown
+                  [options]="dificult"
+                  formControlName="dificultad"
+                  [style]="{ width: '100%' }"
+                  placeholder="Seleccione la dificultad"
+                  optionLabel="label"
+                  optionValue="value"
+                ></p-dropdown>
+                <label for="dificultad">Dificultad</label>
+              </span>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="col-12 md:col-6">
+              <span class="p-float-label">
+                <p-inputNumber
+                  formControlName="cant_Clases"
+                  [showButtons]="true"
+                  class="w-full"
+                ></p-inputNumber>
+                <label for="cant_Clases">Cantidad de Clases</label>
+              </span>
+            </div>
+
+            <div class="col-12 md:col-6">
+              <span class="p-float-label">
+                <p-inputNumber
+                  formControlName="precio"
+                  mode="currency"
+                  currency="ARS"
+                  class="w-full"
+                ></p-inputNumber>
+                <label for="precio">Precio</label>
+              </span>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div
+              class="col-12 md:col-6 justify-content-center align-content-center align-items-center"
+            >
+              <span
+                class="flex flex-column justify-content-center align-content-center align-items-center gap-3"
+              >
+                <label>Añade una imagen</label>
+                <img
+                  name="img"
+                  [src]="
+                    productForm.get('imagenBase64')?.value ||
+                    '../../../../assets/add_img.svg'
+                  "
+                  alt="Imagen del Producto"
+                  class="cursor-pointer"
+                  width="20%"
+                  (click)="seleccionarImagen()"
+                />
+                <input
+                  type="file"
+                  accept="image/*"
+                  (change)="cargarImagen($event)"
+                  hidden
+                  #imagenInput
+                />
+              </span>
+            </div>
+
+            <div class="col-12 md:col-6">
+              <div class="pt-2">
+                <span class="p-float-label">
+                  <p-dropdown
+                    [options]="category"
+                    formControlName="id_Categoria"
+                    [style]="{ width: '100%' }"
+                    placeholder="Seleccione la categoría"
+                    optionLabel="nombre_Categoria"
+                    optionValue="id_Categoria"
+                  ></p-dropdown>
+                  <label for="id_Categoria">Categoría</label>
+                </span>
+              </div>
+              <div class="pt-2">
+                <span class="p-float-label">
+                  <input
+                    id="enlaceMeet"
+                    type="text"
+                    pInputText
+                    formControlName="enlaceMeet"
+                    class="w-full"
+                  />
+                  <label for="enlaceMeet">Enlace de Google Meet</label>
+                </span>
+              </div>
+              <div class="pt-2">
+                <span class="p-float-label">
+                  <textarea
+                    pInputTextarea
+                    formControlName="descripcion"
+                    [rows]="5"
+                    class="w-full"
+                  ></textarea>
+                  <label for="descripcion">Descripción</label>
+                </span>
+              </div>
+              <div class="flex justify-content-end align-content-end gap-2">
+                <button
+                  pButton
+                  type="button"
+                  label="Cancelar"
+                  class="p-button-secondary"
+                ></button>
+                <button
+                  pButton
+                  type="submit"
+                  label="Crear Producto"
+                  [disabled]="productForm.invalid"
+                ></button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </p-card>
+    </div>
+  </div>
+</div>
 <app-spinner [isVisible]="isLoading"></app-spinner>

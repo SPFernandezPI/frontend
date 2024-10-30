@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { HandleErrorService } from '../../shared/services/handle-error.service';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -79,5 +80,12 @@ export class ProductService {
     return this.http.get<any>(`${this.apiUrl}/api/Producto/FiltrarProductos`, {
       params,
     });
+  }
+
+  postNewProduct(form: FormGroup): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/api/Producto/CrearProducto`,
+      form
+    );
   }
 }
